@@ -1,190 +1,291 @@
 # Prophet Time Series Forecasting Demo
 
-A simple demonstration of Facebook's Prophet library for time series forecasting and visualization.
+A comprehensive demonstration of Facebook's Prophet library featuring interactive Plotly visualizations and automated GitHub Actions workflows.
 
 ![Prophet Forecast](https://img.shields.io/badge/Prophet-Time%20Series-blue)
-![Python](https://img.shields.io/badge/Python-3.7%2B-brightgreen)
+![Python](https://img.shields.io/badge/Python-3.11+-brightgreen)
+![Plotly](https://img.shields.io/badge/Plotly-Interactive-orange)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Automated-purple)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## Overview
+## 🌟 Features
 
-This project demonstrates how to use Facebook's Prophet library to:
-- Generate synthetic time series data with trends and seasonality
-- Fit a Prophet forecasting model
-- Create predictions with confidence intervals
-- Visualize results with trend and seasonal component decomposition
+- **Interactive Visualizations**: Plotly-powered HTML plots with zoom, pan, and hover capabilities
+- **Realistic Data**: E-commerce sales simulation with trends, seasonality, and special events
+- **Automated Forecasting**: GitHub Actions workflow for scheduled predictions
+- **Codespaces Ready**: Optimized for GitHub Codespaces development environment
+- **Professional Analysis**: Performance metrics, component decomposition, and confidence intervals
+- **No Dependencies Issues**: Browser-based plots (no Chrome/Kaleido requirements)
 
-## Features
+## 📊 What You'll Get
 
-- **Automatic seasonality detection**: Yearly and weekly patterns
-- **Robust forecasting**: Handles missing data and outliers well
-- **Visual components breakdown**: Separate trend and seasonality plots
-- **Confidence intervals**: Upper and lower prediction bounds
-- **Easy to customize**: Modify parameters for different data types
+### Interactive Visualizations
+- **Main Forecast Plot**: Historical data, predictions, and confidence intervals
+- **Components Breakdown**: Trend, yearly seasonality, weekly patterns, and holiday effects  
+- **Performance Analysis**: Model accuracy metrics and residual analysis
 
-## Installation
+### Data Outputs
+- **CSV Files**: Complete forecast data and original training dataset
+- **Metrics**: MAE, RMSE, MAPE, and R² performance indicators
+- **HTML Reports**: Interactive plots viewable in any browser
 
-### Prerequisites
-- Python 3.7+
-- pip package manager
+## 🚀 Quick Start
 
-### Setup
+### Option 1: GitHub Codespaces (Recommended)
 
-1. **Clone the repository:**
+1. **Open in Codespaces**: Click the green "Code" button → "Codespaces" → "Create codespace"
+2. **Wait for setup**: Environment auto-configures with all dependencies
+3. **Run the demo**:
+   ```bash
+   python prophet_demo.py
+   ```
+4. **View results**: Open HTML files in `outputs/` folder with browser preview
+
+### Option 2: Local Development
+
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/yourusername/prophet-demo.git
    cd prophet-demo
    ```
 
-2. **Create a virtual environment:**
+2. **Create virtual environment**:
    ```bash
    python -m venv prophet-env
    source prophet-env/bin/activate  # Linux/macOS
    # prophet-env\Scripts\activate   # Windows
    ```
 
-3. **Install dependencies:**
+3. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
+4. **Run the demo**:
+   ```bash
+   python prophet_demo.py
+   ```
 
-### Basic Demo
-
-Run the main demo script:
-```bash
-python prophet_demo.py
-```
-
-This will:
-1. Generate 2 years of synthetic daily data
-2. Fit a Prophet model
-3. Forecast 90 days into the future
-4. Display forecast and component plots
-
-### Using Your Own Data
-
-To use your own data, modify the data loading section:
-
-```python
-# Replace the sample data creation with:
-df = pd.read_csv('your_data.csv')
-df = df.rename(columns={'date_column': 'ds', 'value_column': 'y'})
-df['ds'] = pd.to_datetime(df['ds'])
-```
-
-**Data Requirements:**
-- CSV file with date and numeric value columns
-- Dates should be in a parseable format (YYYY-MM-DD recommended)
-- At least several months of historical data for best results
-
-## Output
-
-The script generates:
-
-1. **Forecast Plot**: Shows historical data, predictions, and confidence intervals
-2. **Components Plot**: Breaks down the forecast into:
-   - Overall trend
-   - Yearly seasonality
-   - Weekly seasonality
-3. **Console Output**: Key statistics and sample predictions
-
-## Customization
-
-### Model Parameters
-
-Adjust the Prophet model for different data characteristics:
-
-```python
-model = Prophet(
-    growth='linear',              # 'linear' or 'logistic'
-    yearly_seasonality=True,      # Enable yearly patterns
-    weekly_seasonality=True,      # Enable weekly patterns
-    daily_seasonality=False,      # Enable daily patterns
-    seasonality_mode='additive', # 'additive' or 'multiplicative'
-    changepoint_prior_scale=0.05, # Trend flexibility (0.001-0.5)
-    seasonality_prior_scale=10.0   # Seasonality strength (0.01-10+)
-)
-```
-
-### Forecasting Period
-
-Change the prediction horizon:
-```python
-# Predict different periods into the future
-future = model.make_future_dataframe(periods=30)   # 30 days
-future = model.make_future_dataframe(periods=365)  # 1 year
-```
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 prophet-demo/
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── prophet_demo.py
-├── data/ (optional)
-│   └── your_data.csv
-└── outputs/ (created when running)
-    └── prophet_forecast.csv
+├── README.md                    # This file
+├── requirements.txt             # Python dependencies
+├── .gitignore                  # Git ignore rules
+├── prophet_demo.py             # Main Prophet forecasting script
+├── .devcontainer/              # Codespaces configuration
+│   └── devcontainer.json
+├── .github/workflows/          # GitHub Actions
+│   └── prophet-forecast.yml
+└── outputs/                    # Generated results
+    ├── interactive_forecast.html      # Main forecast plot
+    ├── interactive_components.html    # Seasonality breakdown
+    ├── performance_analysis.html      # Model metrics
+    ├── forecast_results.csv           # Complete forecast data
+    ├── original_data.csv             # Training dataset
+    └── model_metrics.txt             # Performance summary
 ```
 
-## Dependencies
+## 🎯 Data & Model Details
 
-- `prophet>=1.1.0` - Facebook's forecasting library
-- `pandas>=1.3.0` - Data manipulation
-- `matplotlib>=3.3.0` - Basic plotting
-- `numpy>=1.21.0` - Numerical computations
+### Synthetic Dataset
+- **Time Period**: 3+ years of daily e-commerce sales data
+- **Patterns**: Growth trend, yearly seasonality, weekly cycles, holiday effects
+- **Special Events**: Black Friday spikes, COVID-19 impact simulation
+- **Realism**: Noise, outliers, and business-relevant fluctuations
 
-## Troubleshooting
-
-### Installation Issues
-
-**On Windows:**
-```bash
-# If Prophet installation fails, try:
-pip install prophet --no-cache-dir
-# You may need Visual Studio Build Tools
+### Prophet Model Configuration
+```python
+Prophet(
+    growth='linear',                 # Linear growth trend
+    yearly_seasonality=True,         # Annual patterns
+    weekly_seasonality=True,         # Weekly cycles  
+    daily_seasonality=False,         # No daily patterns for daily data
+    seasonality_mode='additive',     # Additive seasonality
+    changepoint_prior_scale=0.05,    # Trend flexibility
+    seasonality_prior_scale=10.0,    # Seasonality strength
+    holidays_prior_scale=10.0        # Holiday effect strength
+)
 ```
 
-**On macOS:**
-```bash
-# If you get compilation errors:
-xcode-select --install
-pip install prophet
+### Features Added
+- US holidays integration
+- Custom monthly seasonality
+- Confidence interval estimation
+- Robust outlier handling
+
+## 🤖 GitHub Actions Automation
+
+### Automated Workflows
+- **On Push**: Runs forecast when code changes
+- **Weekly Schedule**: Updates predictions every Monday at 9 AM UTC
+- **Manual Trigger**: Run on-demand with custom parameters
+- **Quality Checks**: Code linting and formatting validation
+
+### Workflow Features
+- Dependency caching for faster runs
+- Artifact uploads (HTML plots, CSV data, metrics)
+- Auto-commit results back to repository
+- Comprehensive logging and error handling
+
+### Manual Execution
+1. Go to **Actions** tab in your GitHub repository
+2. Select **"Prophet Forecasting Demo"**
+3. Click **"Run workflow"**
+4. Optionally set custom forecast period
+5. Download artifacts after completion
+
+## 📈 Viewing Results
+
+### In Codespaces
+1. Navigate to `outputs/` folder
+2. Right-click any `.html` file
+3. Select "Open with Live Preview" or similar option
+4. Interactive plots open in browser tab
+
+### Download & Local Viewing
+1. Download HTML files from `outputs/` folder
+2. Open in your preferred web browser
+3. Enjoy full interactivity (zoom, pan, hover)
+
+### GitHub Actions Artifacts
+1. Check completed workflow runs
+2. Download artifact bundles:
+   - `prophet-interactive-plots` (HTML files)
+   - `prophet-forecast-data` (CSV files)  
+   - `prophet-model-metrics` (performance data)
+
+## 🔧 Customization
+
+### Modify Forecast Period
+```python
+future = model.make_future_dataframe(periods=365)  # 1 year forecast
 ```
+
+### Adjust Model Parameters
+```python
+model = Prophet(
+    changepoint_prior_scale=0.1,    # More flexible trend
+    seasonality_prior_scale=15.0,   # Stronger seasonality
+    interval_width=0.9              # 90% confidence intervals
+)
+```
+
+### Add Custom Seasonalities
+```python
+model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
+model.add_seasonality(name='quarterly', period=91.25, fourier_order=8)
+```
+
+### Holiday Integration
+```python
+# Built-in country holidays
+model.add_country_holidays(country_name='US')
+
+# Custom holidays
+holidays = pd.DataFrame({
+    'holiday': 'custom_event',
+    'ds': pd.to_datetime(['2024-01-15', '2024-07-15']),
+    'lower_window': 0,
+    'upper_window': 1,
+})
+```
+
+## 📊 Performance Metrics
+
+The model automatically calculates:
+- **MAE** (Mean Absolute Error): Average prediction error
+- **RMSE** (Root Mean Square Error): Penalizes large errors
+- **MAPE** (Mean Absolute Percentage Error): Relative error percentage
+- **R²** (Coefficient of Determination): Explained variance
+
+## 🛠️ Dependencies
+
+```txt
+prophet>=1.1.0          # Facebook's forecasting library
+plotly>=5.15.0          # Interactive plotting
+pandas>=1.5.0           # Data manipulation
+numpy>=1.21.0           # Numerical operations
+```
+
+## 🌐 Browser Compatibility
+
+Interactive HTML plots work in:
+- ✅ Chrome/Chromium
+- ✅ Firefox  
+- ✅ Safari
+- ✅ Edge
+- ✅ GitHub Codespaces browser preview
+
+## 🚨 Troubleshooting
 
 ### Common Issues
 
-1. **Plots not showing**: Add `plt.show()` or run in Jupyter notebook
-2. **Date parsing errors**: Ensure date column is properly formatted
-3. **Memory issues**: Reduce data size or forecast period for large datasets
+**Plots not displaying in Codespaces:**
+- Try different "Open with" options for HTML files
+- Use browser preview extensions
+- Download and open locally
 
-## Contributing
+**GitHub Actions failing:**
+- Check Python version compatibility
+- Verify requirements.txt is up to date
+- Review workflow logs for specific errors
+
+**Model performance poor:**
+- Increase training data period
+- Adjust seasonality parameters
+- Add relevant holidays or custom seasonalities
+
+### Getting Help
+
+1. Check the **Issues** tab for common problems
+2. Review **GitHub Actions** logs for error details
+3. Examine `outputs/model_metrics.txt` for performance insights
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/improvement`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/improvement`)
-5. Create a Pull Request
+3. Make your changes
+4. Add tests if applicable
+5. Commit changes (`git commit -am 'Add new feature'`)
+6. Push to branch (`git push origin feature/improvement`)
+7. Create a Pull Request
 
-## Resources
+## 📚 Learning Resources
 
 - [Prophet Documentation](https://facebook.github.io/prophet/)
-- [Prophet GitHub Repository](https://github.com/facebook/prophet)
-- [Time Series Analysis with Prophet](https://research.fb.com/blog/2017/02/prophet-forecasting-at-scale/)
+- [Plotly Python Documentation](https://plotly.com/python/)
+- [Time Series Forecasting Guide](https://facebook.github.io/prophet/docs/quick_start.html)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-## License
+## 🎯 Use Cases
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This demo is perfect for:
+- **Business Forecasting**: Sales, revenue, demand prediction
+- **Educational Purposes**: Learning time series analysis
+- **Portfolio Projects**: Demonstrating data science skills
+- **Production Templates**: Starting point for real forecasting systems
 
-## Acknowledgments
+## 📝 License
 
-- Facebook's Core Data Science team for creating Prophet
-- The open-source community for continuous improvements
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **Facebook's Core Data Science Team** for creating Prophet
+- **Plotly Team** for outstanding visualization tools  
+- **GitHub** for Codespaces and Actions platforms
+- **Open Source Community** for continuous improvements
 
 ---
 
-**Happy Forecasting! 📈**
+## 🚀 Ready to Forecast?
+
+1. **Click** the green "Use this template" button
+2. **Open** in GitHub Codespaces  
+3. **Run** `python prophet_demo.py`
+4. **Explore** your interactive forecasts!
+
+**Happy Forecasting! 📈✨**
