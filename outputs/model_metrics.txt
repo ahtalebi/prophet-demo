@@ -1,0 +1,10 @@
+Prophet Model Performance Metrics
+========================================
+
+Mean Absolute Error (MAE): $98
+Root Mean Square Error (RMSE): $126
+Mean Absolute Percentage Error (MAPE): 5.4%
+R-squared (R²): 0.978
+Training Data Points: 1,339
+Forecast Period: 6 months
+Generated: 2025-09-13 14:26:57
