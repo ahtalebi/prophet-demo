@@ -1,0 +1,83 @@
+name: Prophet Forecasting Demo
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      forecast_days:
+        description: 'Number of days to forecast'
+        required: false
+        default: '180'
+        type: string
+
+jobs:
+  forecast-analysis:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Create outputs directory
+      run: mkdir -p outputs
+      
+    - name: Run Prophet forecasting
+      run: |
+        python prophet_demo.py
+      env:
+        FORECAST_DAYS: ${{ github.event.inputs.forecast_days || '180' }}
+        
+    - name: List generated files
+      run: |
+        echo "Generated files:"
+        ls -la outputs/
+        
+    - name: Commit results to repository
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action Bot"
+        
+        # Add timestamp to commit message
+        TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        
+        # Add outputs if there are changes
+        git add outputs/
+        
+        # Check if there are changes to commit
+        if ! git diff --cached --quiet; then
+          git commit -m "🤖 Auto-update Prophet forecast results - $TIMESTAMP
+
+📊 Forecast data updated automatically
+🔄 Streamlit dashboard will refresh within 5 minutes
+🌐 View at: https://huggingface.co/spaces/Talebi-user-2025678/prophet-demo"
+          git push
+        else
+          echo "No changes to commit"
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
