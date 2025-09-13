@@ -62,19 +62,12 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action Bot"
         
-        # Add timestamp to commit message
         TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
         
-        # Add outputs if there are changes
         git add outputs/
         
-        # Check if there are changes to commit
         if ! git diff --cached --quiet; then
-          git commit -m "🤖 Auto-update Prophet forecast results - $TIMESTAMP
-
-📊 Forecast data updated automatically
-🔄 Streamlit dashboard will refresh within 5 minutes
-🌐 View at: https://huggingface.co/spaces/Talebi-user-2025678/prophet-demo"
+          git commit -m "Auto-update Prophet forecast results - $TIMESTAMP"
           git push
         else
           echo "No changes to commit"
