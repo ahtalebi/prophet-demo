@@ -6,10 +6,12 @@ holidays==0.80
 importlib_resources==6.5.2
 kiwisolver==1.4.9
 matplotlib==3.10.6
+narwhals==2.5.0
 numpy==2.3.3
 packaging==25.0
 pandas==2.3.2
 pillow==11.3.0
+plotly==6.3.0
 prophet==1.1.7
 pyparsing==3.2.3
 python-dateutil==2.9.0.post0
@@ -18,3 +20,4 @@ six==1.17.0
 stanio==0.5.1
 tqdm==4.67.1
 tzdata==2025.2
+streamlit==1.28.0
