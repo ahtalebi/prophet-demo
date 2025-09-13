@@ -3,18 +3,7 @@ name: Prophet Forecasting Demo
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    # Run every Monday at 9:00 AM UTC
-    - cron: '0 9 * * 1'
   workflow_dispatch:
-    inputs:
-      forecast_days:
-        description: 'Number of days to forecast'
-        required: false
-        default: '180'
-        type: string
 
 jobs:
   forecast-analysis:
@@ -29,27 +18,16 @@ jobs:
       with:
         python-version: 3.11
         
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-          
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install prophet plotly pandas numpy matplotlib
         
     - name: Create outputs directory
       run: mkdir -p outputs
       
     - name: Run Prophet forecasting
-      run: |
-        python prophet_demo.py
-      env:
-        FORECAST_DAYS: ${{ github.event.inputs.forecast_days || '180' }}
+      run: python prophet_demo.py
         
     - name: List generated files
       run: |
@@ -57,17 +35,16 @@ jobs:
         ls -la outputs/
         
     - name: Commit results to repository
-      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      if: github.ref == 'refs/heads/main'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action Bot"
         
-        TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-        
-        git add outputs/
+        # Force add outputs (ignore .gitignore for this)
+        git add -f outputs/
         
         if ! git diff --cached --quiet; then
-          git commit -m "Auto-update Prophet forecast results - $TIMESTAMP"
+          git commit -m "Auto-update Prophet forecast results"
           git push
         else
           echo "No changes to commit"

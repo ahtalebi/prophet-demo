@@ -1,4 +1,3 @@
-cat > .gitignore << 'EOF'
 # Virtual Environment
 prophet-env/
 venv/
@@ -46,13 +45,17 @@ Thumbs.db
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Output files
-outputs/
-*.csv
-*.png
-*.jpg
-*.pdf
+# Allow outputs directory and important files
+!outputs/
+!outputs/*.html
+!outputs/*.csv
+!outputs/*.txt
+!outputs/README.md
+
+# But ignore large image files in outputs (optional)
+outputs/*.png
+outputs/*.jpg
+outputs/*.pdf
 
 # Logs
 *.log
-EOF
