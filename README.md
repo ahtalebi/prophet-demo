@@ -71,7 +71,20 @@ prophet-demo/
 - Prophet model trains on synthetic e-commerce data
 - Results saved to repository and deployed to web dashboard
 
-### 2. **Model Features**
+### 2. **GitHub → Hugging Face Update Flow**
+The automated synchronization between GitHub and Hugging Face follows this process:
+
+1. **Local Development** → Make changes to `prophet_demo.py` locally
+2. **Git Push** → Push code changes to GitHub repository  
+3. **GitHub Actions Trigger** → Automatically runs Prophet forecasting pipeline
+4. **Model Training & Results** → Generates new HTML plots and saves to `outputs/` folder
+5. **Repository Update** → GitHub Actions commits new results back to repo
+6. **Hugging Face Auto-Sync** → HF Streamlit app checks GitHub repo every ~5 minutes
+7. **Dashboard Refresh** → New plots automatically appear in live dashboard
+
+> **Note**: GitHub Actions updates the GitHub repository, and Hugging Face reads from it - no direct push to HF needed!
+
+### 3. **Model Features**
 - **Seasonality Detection**: Automatic yearly, weekly, and custom patterns
 - **Holiday Integration**: US holidays with configurable effects
 - **Trend Analysis**: Flexible changepoint detection
