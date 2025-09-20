@@ -14,6 +14,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
       
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
@@ -28,14 +30,29 @@ jobs:
     - name: Run Prophet forecasting
       run: python prophet_demo.py
         
-    - name: Commit results to repository
+    - name: Commit and push results
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action Bot"
+        
+        # Pull latest changes first
+        git pull --rebase origin main
+        
         git add -f outputs/
         if ! git diff --cached --quiet; then
           git commit -m "Auto-update Prophet forecast results"
-          git push
+          
+          # Try to push, retry if it fails
+          for i in {1..3}; do
+            if git push origin main; then
+              echo "Push successful"
+              break
+            else
+              echo "Push failed, attempt $i/3"
+              git pull --rebase origin main
+              sleep 5
+            fi
+          done
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
