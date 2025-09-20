@@ -15,7 +15,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 2  # Fetch last 2 commits for comparison
         
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
@@ -35,13 +35,10 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action Bot"
         
-        # Check if there are any changes
         if [ -n "$(git status --porcelain)" ]; then
           git add -f outputs/
           git commit -m "Auto-update Prophet forecast results"
           git push
-        else
-          echo "No changes to commit"
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,19 +51,26 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 2  # Need history for git diff
     
     - name: Check if app.py was modified
       id: check_files
       run: |
+        echo "Checking for app.py changes..."
+        git diff --name-only HEAD~1 HEAD
         if git diff --name-only HEAD~1 HEAD | grep -q "app.py"; then
           echo "app_modified=true" >> $GITHUB_OUTPUT
+          echo "app.py was modified"
         else
           echo "app_modified=false" >> $GITHUB_OUTPUT
+          echo "app.py was not modified"
         fi
     
     - name: Sync to HuggingFace
       if: steps.check_files.outputs.app_modified == 'true'
       run: |
+        echo "Syncing app.py to HuggingFace..."
         git clone https://huggingface.co/spaces/talebi-lead-2025/prophet-forecasting-sync hf-repo
         cp app.py hf-repo/
         cd hf-repo
@@ -76,6 +80,9 @@ jobs:
         if ! git diff --cached --quiet; then
           git commit -m "Auto-sync app.py from GitHub"
           git push
+          echo "Successfully synced to HuggingFace"
+        else
+          echo "No changes to sync"
         fi
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
