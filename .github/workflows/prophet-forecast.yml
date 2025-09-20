@@ -15,7 +15,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 2  # Fetch last 2 commits for comparison
+        fetch-depth: 2
         
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
@@ -52,7 +52,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 2  # Need history for git diff
+        fetch-depth: 2
     
     - name: Check if app.py was modified
       id: check_files
@@ -71,7 +71,10 @@ jobs:
       if: steps.check_files.outputs.app_modified == 'true'
       run: |
         echo "Syncing app.py to HuggingFace..."
-        git clone https://huggingface.co/spaces/talebi-lead-2025/prophet-forecasting-sync hf-repo
+        
+        # Clone with authentication
+        git clone https://talebi-lead-2025:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/talebi-lead-2025/prophet-forecasting-sync hf-repo
+        
         cp app.py hf-repo/
         cd hf-repo
         git config user.email "action@github.com"
