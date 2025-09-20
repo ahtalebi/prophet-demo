@@ -19,7 +19,7 @@ def load_html_from_github(filename):
 
 def main():
     st.title("Prophet model time series results")
-    st.markdown("**Actual Prophet model plots from GitHub Actions**")
+    st.markdown("**Actual Prophet model plots from GitHub Actions. check it again**")
     
     # Create tabs for your actual Prophet plots
     tab1, tab2, tab3 = st.tabs(["📈 **Forecast Plot**", "🔍 **Components**", "📊 **Performance**"])
