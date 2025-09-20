@@ -67,7 +67,7 @@ jobs:
     - name: Sync to HuggingFace
       if: steps.check_files.outputs.app_modified == 'true'
       run: |
-        git clone https://huggingface.co/spaces/Talebi-user-2025678/prophet-demo hf-repo
+        git clone https://huggingface.co/spaces/talebi-lead-2025/prophet-forecasting-sync hf-repo
         cp app.py hf-repo/
         cd hf-repo
         git config user.email "action@github.com"
