@@ -18,7 +18,7 @@ def load_html_from_github(filename):
         return None, f"Error loading {filename}: {str(e)}"
 
 def main():
-    st.title("Prophet model Time Series Results")
+    st.title("Prophet model time series results")
     st.markdown("**Actual Prophet model plots from GitHub Actions**")
     
     # Create tabs for your actual Prophet plots
