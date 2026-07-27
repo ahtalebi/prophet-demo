@@ -7,4 +7,4 @@ Mean Absolute Percentage Error (MAPE): 5.4%
 R-squared (R²): 0.978
 Training Data Points: 1,339
 Forecast Period: 6 months
-Generated: 2026-07-20 11:51:31
+Generated: 2026-07-27 12:31:50
